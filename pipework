@@ -1,29 +1,17 @@
 #!/bin/bash
 set -e
 
-case "$1" in
-    --wait)
-      WAIT=1
-      ;;
-esac
 
 IFNAME=$1
 GUESTNAME=$2
 IPADDR=$3
 MACADDR=$4
 
-[ "$WAIT" ] && {
-  while ! grep -q ^1$ /sys/class/net/$GUEST_IFNAME/carrier 2>/dev/null
-  do sleep 1
-  done
-  exit 0
-}
 
 [ "$IPADDR" ] || {
     echo "Syntax:"
     echo "pipework <hostinterface> <guest> <ipaddr>/<subnet>[@default_gateway] [macaddr]"
     echo "pipework <hostinterface> <guest> dhcp [macaddr]"
-    echo "pipework --wait"
     exit 1
 }
 
