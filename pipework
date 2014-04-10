@@ -15,14 +15,10 @@ MACADDR=$4
     exit 1
 }
 
-if $(which ovs-vsctl >/dev/null) && $(ovs-vsctl list-br|grep -q ^$IFNAME$)
-    then 
-        IFTYPE=bridge
-        BRTYPE=openvswitch
-    else
+[ "$(which ovs-vsctl >/dev/null) && $(ovs-vsctl list-br|grep -q ^$IFNAME$)" ] || {
         echo "Sorry only openvswitch is supported"
         exit 1
-    fi    
+    }
 
 if which docker >/dev/null
 	then
